@@ -8,6 +8,7 @@ from bs4 import BeautifulSoup
 
 def NIST_Date_Tracking():
     pressure = 0.1
+    ID = 'C7727379'
     html = f"https://webbook.nist.gov/cgi/fluid.cgi?P={pressure:.1f}&TLow={temp_min}&THigh={temp_max}&TInc={temp_interval}&Digits=5&ID={ID}&Action=Load&Type=IsoBar&TUnit=C&PUnit=MPa&DUnit=kg%2Fm3&HUnit=kJ%2Fkg&WUnit=m%2Fs&VisUnit=uPa*s&STUnit=N%2Fm&RefState=DEF"
 
     res = requests.get(html)
@@ -33,7 +34,6 @@ def NIST_Date_Tracking():
             values_list.append(values)
 
     thermophysic_list = pd.DataFrame(values_list, columns=columns)
-    print(thermophysic_list)
 
 
 # Composition
@@ -49,7 +49,7 @@ PROPERTY_LIST = ["density", "thermal_conductivity",
 
 "---"
 st.title("ガス物性計算アプリ")
-st.text("更新日：2023/4/16")
+st.text("更新日：2023/4/18")
 "---"
 
 zero_data = np.zeros(shape=(1, len(COMPOSE_LIST)))
