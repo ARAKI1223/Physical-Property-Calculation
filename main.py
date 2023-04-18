@@ -2,38 +2,38 @@ import streamlit as st
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import requests
-from bs4 import BeautifulSoup
+# import requests
+# from bs4 import BeautifulSoup
 
 
-def NIST_Date_Tracking():
-    pressure = 0.1
-    ID = 'C7727379'
-    html = f"https://webbook.nist.gov/cgi/fluid.cgi?P={pressure:.1f}&TLow={temp_min}&THigh={temp_max}&TInc={temp_interval}&Digits=5&ID={ID}&Action=Load&Type=IsoBar&TUnit=C&PUnit=MPa&DUnit=kg%2Fm3&HUnit=kJ%2Fkg&WUnit=m%2Fs&VisUnit=uPa*s&STUnit=N%2Fm&RefState=DEF"
+# def NIST_Date_Tracking():
+#     pressure = 0.1
+#     ID = 'C7727379'
+#     html = f"https://webbook.nist.gov/cgi/fluid.cgi?P={pressure:.1f}&TLow={temp_min}&THigh={temp_max}&TInc={temp_interval}&Digits=5&ID={ID}&Action=Load&Type=IsoBar&TUnit=C&PUnit=MPa&DUnit=kg%2Fm3&HUnit=kJ%2Fkg&WUnit=m%2Fs&VisUnit=uPa*s&STUnit=N%2Fm&RefState=DEF"
 
-    res = requests.get(html)
-    soup = BeautifulSoup(res.content, "html.parser")
+#     res = requests.get(html)
+#     soup = BeautifulSoup(res.content, "html.parser")
 
-    table = soup.find("table", {"class": "small"})
-    rows = table.findAll("tr")  # Type: bs4.element.ResultSet
+#     table = soup.find("table", {"class": "small"})
+#     rows = table.findAll("tr")  # Type: bs4.element.ResultSet
 
-    columns = []
-    values_list = []
-    for row in rows:  # Type: bs4.element.Tag
-        throws = row.findAll("th")  # Type: bs4.element.ResultSet
-        tdrows = row.findAll("td")  # Type: bs4.element.ResultSet
-        if bool(throws) == True:
-            for throw in throws:  # Type: bs4.element.Tag
-                column = throw.get_text()  # Type: str
-                columns.append(column)
-        elif bool(tdrows) == True:
-            values = []
-            for tdrow in tdrows:
-                value = tdrow.get_text()
-                values.append(value)
-            values_list.append(values)
+#     columns = []
+#     values_list = []
+#     for row in rows:  # Type: bs4.element.Tag
+#         throws = row.findAll("th")  # Type: bs4.element.ResultSet
+#         tdrows = row.findAll("td")  # Type: bs4.element.ResultSet
+#         if bool(throws) == True:
+#             for throw in throws:  # Type: bs4.element.Tag
+#                 column = throw.get_text()  # Type: str
+#                 columns.append(column)
+#         elif bool(tdrows) == True:
+#             values = []
+#             for tdrow in tdrows:
+#                 value = tdrow.get_text()
+#                 values.append(value)
+#             values_list.append(values)
 
-    thermophysic_list = pd.DataFrame(values_list, columns=columns)
+#     thermophysic_list = pd.DataFrame(values_list, columns=columns)
 
 
 # Composition
