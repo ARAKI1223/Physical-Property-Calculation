@@ -85,6 +85,10 @@ for species, ID in COMPOSE_DICT.items():
     thermophysic_lists.setdefault(species, thermophysic_list)
 
 # calculate mixture values
+for species, list in thermophysic_lists.items():
+    vf = volf.get(species)
+    list = list.applymap(lambda x: x*vf)
+
 # for index, row in volf.iterrows():
 #     print(d.get(index) for d in thermophysic_lists)
     # print(index, row, values)
