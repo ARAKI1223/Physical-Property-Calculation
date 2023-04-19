@@ -9,9 +9,7 @@ from bs4 import BeautifulSoup
 # Composition
 COMPOSE_DICT = {"h2": "C1333740", "o2": "C7782447", "n2": "C7727379", "h2o": "C7732185",
                 "ch4": "C74828", "c2h6": "C74840", "c3h8": "Propane", "c4h10": "C106978"}
-# COMPOSE_LIST = ["h2", "o2", "n2", "h2o", "ch4", "c2h6", "c3h8", "c4h10"]
 COMPOSE_LIST = list(COMPOSE_DICT.keys())
-
 
 # Property
 # Density[kg/m3]
@@ -22,19 +20,19 @@ COMPOSE_LIST = list(COMPOSE_DICT.keys())
 
 "---"
 st.title("ガス物性計算アプリ")
-st.text("更新日：2023/4/18")
+st.text("更新日：2023/4/19")
 "---"
 
-# zero_data = np.zeros(shape=(1, len(COMPOSE_LIST)))
-# volf = pd.DataFrame(zero_data, columns=COMPOSE_LIST)
+zero_data = np.zeros(shape=(1, len(COMPOSE_LIST)))
+volf = pd.DataFrame(zero_data, columns=COMPOSE_LIST)
 
 # input volume fraction
-# with st.sidebar:
-#     st.text("組成[vol%]を入力")
-#     for i in COMPOSE_LIST:
-#         volf[i] = st.number_input(i, format="%f")
-#     total = volf.sum(axis=1)*100
-#     st.text(f"Total={total}%")
+with st.sidebar:
+    st.text("組成[vol%]を入力")
+    for i in COMPOSE_LIST:
+        volf[i] = st.number_input(i, format="%f")
+    total = volf.sum(axis=1)*100
+    st.text(f"Total={total}%")
 
 # display volume fraction
 # st.text("ガス組成")
