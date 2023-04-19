@@ -52,7 +52,7 @@ with st.sidebar:
     pressure = float(st.text_input('圧力[MPa]', value=0.1))
 
 # get thermophysic
-thermophysic_lists = []
+thermophysic_lists = {}
 
 for species, ID in COMPOSE_DICT.items():
     print(species, ID)
@@ -81,9 +81,11 @@ for species, ID in COMPOSE_DICT.items():
             values_list.append(values)
 
     thermophysic_list = pd.DataFrame(values_list, columns=columns)
-    thermophysic_lists.append(thermophysic_list)
+    # thermophysic_lists.append(thermophysic_list)
+    thermophysic_lists.update(species = thermophysic_list)
 
 # display thermophysic
-for list in thermophysic_lists:
+for species, list in thermophysic_lists.items():
+    species 
     list
 "---"
