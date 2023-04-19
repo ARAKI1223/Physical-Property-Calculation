@@ -82,10 +82,11 @@ for species, ID in COMPOSE_DICT.items():
 
     thermophysic_list = pd.DataFrame(values_list, columns=columns)
     # thermophysic_lists.append(thermophysic_list)
-    thermophysic_lists.update(species = thermophysic_list)
+    thermophysic_lists.update(species=thermophysic_list)
 
 # display thermophysic
-for species, list in thermophysic_lists.items():
-    species 
-    list
+# for species, list in thermophysic_lists.items():
+#     species
+#     list
+thermophysic_lists
 "---"
