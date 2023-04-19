@@ -84,5 +84,5 @@ for species, ID in COMPOSE_DICT.items():
     thermophysic_lists.append(thermophysic_list)
 
 # display thermophysic
-print(thermophysic_lists)
+thermophysic_lists
 "---"
