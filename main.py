@@ -55,7 +55,6 @@ with st.sidebar:
 thermophysic_lists = {}
 
 for species, ID in COMPOSE_DICT.items():
-    print(species, ID)
     html = f"https://webbook.nist.gov/cgi/fluid.cgi?P={pressure:.1f}&TLow={temp_min}&THigh={temp_max}&TInc={temp_interval}&Digits=5&ID={ID}&Action=Load&Type=IsoBar&TUnit=C&PUnit=MPa&DUnit=kg%2Fm3&HUnit=kJ%2Fkg&WUnit=m%2Fs&VisUnit=uPa*s&STUnit=N%2Fm&RefState=DEF"
 
     res = requests.get(html)
@@ -64,15 +63,15 @@ for species, ID in COMPOSE_DICT.items():
     table = soup.find("table", {"class": "small"})
     rows = table.findAll("tr")
 
-    columns = []
+    labels = []
     values_list = []
     for row in rows:
         throws = row.findAll("th")
         tdrows = row.findAll("td")
         if bool(throws) == True:
             for throw in throws:
-                column = throw.get_text()
-                columns.append(column)
+                label = throw.get_text()
+                labels.append(label.replace(' ', ''))
         elif bool(tdrows) == True:
             values = []
             for tdrow in tdrows:
@@ -80,13 +79,14 @@ for species, ID in COMPOSE_DICT.items():
                 values.append(value)
             values_list.append(values)
 
-    thermophysic_list = pd.DataFrame(values_list, columns=columns)
-    # thermophysic_lists.append(thermophysic_list)
-    thermophysic_lists.update(species=thermophysic_list)
+    thermophysic_list = pd.DataFrame(values_list, columns=labels)
+    thermophysic_list.drop(
+        columns=thermophysic_list.columns[[1, 2, 3, 4, 5, 6, 7, 9, 10, 13]], inplace=True)
+    thermophysic_lists.setdefault(species, thermophysic_list)
 
 # display thermophysic
-# for species, list in thermophysic_lists.items():
-#     species
-#     list
-thermophysic_lists
+for species, list in thermophysic_lists.items():
+    species
+    list
+# print(thermophysic_lists)
 "---"
