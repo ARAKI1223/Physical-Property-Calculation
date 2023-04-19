@@ -31,12 +31,12 @@ with st.sidebar:
     st.text("組成[vol%]を入力")
     for i in COMPOSE_LIST:
         volf[i] = st.number_input(i, format="%f")
-    total = volf.sum(axis=1)*100
+    total = volf.sum(axis=1)
     st.text(f"Total={total}%")
 
 # display volume fraction
-# st.text("ガス組成")
-# volf
+st.text("ガス組成")
+volf
 
 # select gas
 option = st.selectbox('Select gas', (COMPOSE_LIST))
@@ -86,4 +86,4 @@ thermophysic_list = pd.DataFrame(values_list, columns=columns)
 # display thermophysic
 thermophysic_list
 "---"
-#st.line_chart(data = thermophysic_list)
+# st.line_chart(data = thermophysic_list)
