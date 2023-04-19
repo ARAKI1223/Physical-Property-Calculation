@@ -23,8 +23,8 @@ st.title("ガス物性計算アプリ")
 st.text("更新日：2023/4/19")
 "---"
 
-zero_data = np.zeros(shape=(1, len(COMPOSE_LIST)))
-volf = pd.DataFrame(zero_data, columns=COMPOSE_LIST)
+init_data = np.zeros(shape=(1, len(COMPOSE_LIST)))
+volf = pd.DataFrame(init_data, columns=COMPOSE_LIST)
 
 # input volume fraction
 with st.sidebar:
@@ -71,7 +71,7 @@ for species, ID in COMPOSE_DICT.items():
         if bool(throws) == True:
             for throw in throws:
                 label = throw.get_text()
-                labels.append(label.replace(' ', ''))
+                labels.append(label)
         elif bool(tdrows) == True:
             values = []
             for tdrow in tdrows:
@@ -84,9 +84,13 @@ for species, ID in COMPOSE_DICT.items():
         columns=thermophysic_list.columns[[1, 2, 3, 4, 5, 6, 7, 9, 10, 13]], inplace=True)
     thermophysic_lists.setdefault(species, thermophysic_list)
 
+# calculate mixture values
+# for index, row in volf.iterrows():
+#     print(d.get(index) for d in thermophysic_lists)
+    # print(index, row, values)
+
 # display thermophysic
 for species, list in thermophysic_lists.items():
     species
     list
-# print(thermophysic_lists)
 "---"
