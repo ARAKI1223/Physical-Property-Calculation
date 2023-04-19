@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 
 # Composition
 COMPOSE_DICT = {"h2": "C1333740", "o2": "C7782447", "n2": "C7727379", "h2o": "C7732185",
-                "ch4": "C74828", "c2h6": "C74840", "c3h8": "Propane", "c4h10": "C106978"}
+                "ch4": "C74828", "c2h6": "C74840", "c3h8": "C74986", "c4h10": "C106978"}
 COMPOSE_LIST = list(COMPOSE_DICT.keys())
 
 # Property
@@ -37,9 +37,6 @@ with st.sidebar:
 # display volume fraction
 st.text("ガス組成")
 volf
-
-# select gas
-option = st.selectbox('Select gas', (COMPOSE_LIST))
 "---"
 
 # set temperature list
@@ -55,35 +52,37 @@ with st.sidebar:
     pressure = float(st.text_input('圧力[MPa]', value=0.1))
 
 # get thermophysic
-ID = COMPOSE_DICT.get(option)
-print(temp_min, temp_max, temp_interval)
-html = f"https://webbook.nist.gov/cgi/fluid.cgi?P={pressure:.1f}&TLow={temp_min}&THigh={temp_max}&TInc={temp_interval}&Digits=5&ID={ID}&Action=Load&Type=IsoBar&TUnit=C&PUnit=MPa&DUnit=kg%2Fm3&HUnit=kJ%2Fkg&WUnit=m%2Fs&VisUnit=uPa*s&STUnit=N%2Fm&RefState=DEF"
+thermophysic_lists = []
 
-res = requests.get(html)
-soup = BeautifulSoup(res.content, "html.parser")
+for species, ID in COMPOSE_DICT.items():
+    print(species, ID)
+    html = f"https://webbook.nist.gov/cgi/fluid.cgi?P={pressure:.1f}&TLow={temp_min}&THigh={temp_max}&TInc={temp_interval}&Digits=5&ID={ID}&Action=Load&Type=IsoBar&TUnit=C&PUnit=MPa&DUnit=kg%2Fm3&HUnit=kJ%2Fkg&WUnit=m%2Fs&VisUnit=uPa*s&STUnit=N%2Fm&RefState=DEF"
 
-table = soup.find("table", {"class": "small"})
-rows = table.findAll("tr")  # Type: bs4.element.ResultSet
+    res = requests.get(html)
+    soup = BeautifulSoup(res.content, "html.parser")
 
-columns = []
-values_list = []
-for row in rows:  # Type: bs4.element.Tag
-    throws = row.findAll("th")  # Type: bs4.element.ResultSet
-    tdrows = row.findAll("td")  # Type: bs4.element.ResultSet
-    if bool(throws) == True:
-        for throw in throws:  # Type: bs4.element.Tag
-            column = throw.get_text()  # Type: str
-            columns.append(column)
-    elif bool(tdrows) == True:
-        values = []
-        for tdrow in tdrows:
-            value = tdrow.get_text()
-            values.append(value)
-        values_list.append(values)
+    table = soup.find("table", {"class": "small"})
+    rows = table.findAll("tr")
 
-thermophysic_list = pd.DataFrame(values_list, columns=columns)
+    columns = []
+    values_list = []
+    for row in rows:
+        throws = row.findAll("th")
+        tdrows = row.findAll("td")
+        if bool(throws) == True:
+            for throw in throws:
+                column = throw.get_text()
+                columns.append(column)
+        elif bool(tdrows) == True:
+            values = []
+            for tdrow in tdrows:
+                value = tdrow.get_text()
+                values.append(value)
+            values_list.append(values)
+
+    thermophysic_list = pd.DataFrame(values_list, columns=columns)
+    thermophysic_lists.append(thermophysic_list)
 
 # display thermophysic
-thermophysic_list
+print(thermophysic_lists)
 "---"
-# st.line_chart(data = thermophysic_list)
