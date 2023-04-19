@@ -88,4 +88,4 @@ thermophysic_list = pd.DataFrame(values_list, columns=columns)
 # display thermophysic
 thermophysic_list
 "---"
-st.line_chart(data = thermophysic_list)
+#st.line_chart(data = thermophysic_list)
