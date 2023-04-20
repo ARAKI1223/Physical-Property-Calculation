@@ -92,10 +92,15 @@ for species, list in thermophysic_lists.items():
     vf = volf.at[0, species]
     list1 = list.astype('float64')
     list2 = list1.applymap(lambda x: x*vf)
-    # minlen = min(minlen, len(list.index))
-    # maxlen = max(maxlen, len(list.index))
+    minlen = min(minlen, len(list.index))
+    maxlen = max(maxlen, len(list.index))
     mix_list.add(list2)
+# print(maxlen, minlen)
 
 # display thermophysic
 mix_list
+"---"
+for species, list in mix_list.items():
+    species
+    list
 "---"
