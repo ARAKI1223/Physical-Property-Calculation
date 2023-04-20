@@ -84,19 +84,13 @@ for species, ID in COMPOSE_DICT.items():
     thermophysic_lists.setdefault(species, thermophysic_list)
 
 # calculate mixture values
-mix_list = thermophysic_list.copy()
-mix_list[:] = 0
-minlen = 1000000
-maxlen = 0
 for species, list in thermophysic_lists.items():
-    vf = volf.at[0, species]
-    list1 = list.astype('float64')
-    list2 = list1.applymap(lambda x: x*vf)
-    minlen = min(minlen, len(list.index))
-    maxlen = max(maxlen, len(list.index))
-    mix_list.add(list2)
-print(maxlen, minlen)
-print(mix_list)
+    vf = volf.get(species)
+    list = list.applymap(lambda x: x*vf)
+
+# for index, row in volf.iterrows():
+#     print(d.get(index) for d in thermophysic_lists)
+    # print(index, row, values)
 
 # display thermophysic
 # for species, list in mix_lists.items():
