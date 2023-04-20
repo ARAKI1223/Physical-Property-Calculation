@@ -44,10 +44,10 @@ with st.sidebar:
     prop_col1, prop_col2 = st.columns(2)
     # with prop_col1:
     temp_min, temp_max = st.slider(
-        "温度範囲", min_value=0, max_value=100, value=(0, 100), step=10)
+        "温度範囲", min_value=10, max_value=300, value=(10, 100), step=10)
     # with prop_col2:
     temp_interval = st.slider("温度刻み", min_value=10,
-                              max_value=100, value=50, step=10)
+                              max_value=100, value=10, step=10)
     pressure = float(st.text_input('圧力[MPa]', value=0.1))
 
 # get thermophysic
