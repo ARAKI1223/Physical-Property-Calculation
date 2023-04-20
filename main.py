@@ -94,7 +94,8 @@ for species, list in thermophysic_lists.items():
     list2 = list1.applymap(lambda x: x*2)
     # minlen = min(minlen, len(list.index))
     # maxlen = max(maxlen, len(list.index))
-    mix_list.add(list2)
+    # mix_list.add(list2)
+    mix_list += list2
 # print(maxlen, minlen)
 
 # display thermophysic
