@@ -5,7 +5,6 @@ import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 
-
 # Composition
 COMPOSE_DICT = {"h2": "C1333740", "o2": "C7782447", "n2": "C7727379", "h2o": "C7732185",
                 "ch4": "C74828", "c2h6": "C74840", "c3h8": "C74986", "c4h10": "C106978"}
@@ -45,7 +44,7 @@ with st.sidebar:
     prop_col1, prop_col2 = st.columns(2)
     # with prop_col1:
     temp_min, temp_max = st.slider(
-        "温度範囲", min_value=0, max_value=2000, value=(0, 1000), step=100)
+        "温度範囲", min_value=0, max_value=100, value=(0, 100), step=10)
     # with prop_col2:
     temp_interval = st.slider("温度刻み", min_value=10,
                               max_value=100, value=50, step=10)
@@ -85,16 +84,22 @@ for species, ID in COMPOSE_DICT.items():
     thermophysic_lists.setdefault(species, thermophysic_list)
 
 # calculate mixture values
+mix_list = thermophysic_list.copy()
+mix_list[:] = 0
+minlen = 1000000
+maxlen = 0
 for species, list in thermophysic_lists.items():
-    vf = volf.get(species)
-    list = list.applymap(lambda x: x*vf)
-
-# for index, row in volf.iterrows():
-#     print(d.get(index) for d in thermophysic_lists)
-    # print(index, row, values)
+    vf = volf.at[0, species]
+    list1 = list.astype('float64')
+    list2 = list1.applymap(lambda x: x*vf)
+    minlen = min(minlen, len(list.index))
+    maxlen = max(maxlen, len(list.index))
+    mix_list.add(list2)
+print(maxlen, minlen)
+print(mix_list)
 
 # display thermophysic
-for species, list in thermophysic_lists.items():
-    species
-    list
+# for species, list in mix_lists.items():
+#     print(species)
+#     print(list)
 "---"
