@@ -100,7 +100,7 @@ for species, list in thermophysic_lists.items():
 # display thermophysic
 mix_list
 "---"
-for species, list in mix_list.items():
+for species, list in thermophysic_lists.items():
     species
     list
 "---"
