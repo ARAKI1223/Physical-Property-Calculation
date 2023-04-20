@@ -19,7 +19,7 @@ COMPOSE_LIST = list(COMPOSE_DICT.keys())
 
 "---"
 st.title("ガス物性計算アプリ")
-st.text("更新日：2023/4/19")
+st.text("更新日:2023/4/20")
 "---"
 
 init_data = np.zeros(shape=(1, len(COMPOSE_LIST)))
@@ -86,17 +86,11 @@ for species, ID in COMPOSE_DICT.items():
 # calculate mixture values
 mix_list = thermophysic_list.copy()
 mix_list[:] = 0
-# minlen = 1000000
-# maxlen = 0
 for species, list in thermophysic_lists.items():
     vf = volf.at[0, species]
     list1 = list.astype('float64')
     list2 = list1.applymap(lambda x: x*vf*0.01)
-    # minlen = min(minlen, len(list.index))
-    # maxlen = max(maxlen, len(list.index))
-    # mix_list.add(list2)
     mix_list += list2
-# print(maxlen, minlen)
 
 # display thermophysic
 mix_list
